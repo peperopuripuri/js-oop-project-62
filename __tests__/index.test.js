@@ -77,4 +77,31 @@ describe('Validator', () => {
       expect(schema.isValid('hi')).toBe(false);
     });
   });
+
+  it('should validate null as a valid number', () => {
+    const v = new Validator();
+    const schema = v.number();
+    expect(schema.isValid(null)).toBe(true);
+  });
+
+  it('should validate required number correctly', () => {
+    const v = new Validator();
+    const schema = v.number().required();
+    expect(schema.isValid(null)).toBe(false);
+    expect(schema.isValid(7)).toBe(true);
+  });
+
+  it('should validate positive number correctly', () => {
+    const v = new Validator();
+    const schema = v.number().positive();
+    expect(schema.isValid(10)).toBe(true);
+    expect(schema.isValid(-5)).toBe(false);
+  });
+
+  it('should validate number within range correctly', () => {
+    const v = new Validator();
+    const schema = v.number().range(-5, 5);
+    expect(schema.isValid(-6)).toBe(false);
+    expect(schema.isValid(5)).toBe(true);
+  });
 });
