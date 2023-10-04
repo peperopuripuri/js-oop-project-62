@@ -7,7 +7,7 @@ describe('Validator', () => {
     validator = new Validator();
   });
 
-  describe('string()', () => {
+  describe('string tests', () => {
     it('should validate a string', () => {
       const schema = validator.string();
       expect(schema.isValid('hello')).toBe(true);
@@ -18,9 +18,7 @@ describe('Validator', () => {
       expect(schema.isValid(null)).toBe(true);
       expect(schema.isValid(undefined)).toBe(true);
     });
-  });
 
-  describe('required()', () => {
     it('should validate a non-empty string', () => {
       const schema = validator.required();
       expect(schema.isValid('hello')).toBe(true);
@@ -36,9 +34,7 @@ describe('Validator', () => {
       expect(schema.isValid(null)).toBe(false);
       expect(schema.isValid(undefined)).toBe(false);
     });
-  });
 
-  describe('minLength()', () => {
     it('should validate a string of the correct length', () => {
       const schema = validator.minLength(5);
       expect(schema.isValid('hello')).toBe(true);
@@ -53,9 +49,7 @@ describe('Validator', () => {
       const schema = validator.minLength(5);
       expect(schema.isValid('hi')).toBe(false);
     });
-  });
 
-  describe('contains()', () => {
     it('should validate a string that contains the given substring', () => {
       const schema = validator.contains('hello');
       expect(schema.isValid('hello world')).toBe(true);
@@ -65,9 +59,7 @@ describe('Validator', () => {
       const schema = validator.contains('hello');
       expect(schema.isValid('goodbye')).toBe(false);
     });
-  });
 
-  describe('isValid()', () => {
     it('should validate a value against all added validation rules', () => {
       const schema = validator.string().required().minLength(5);
       expect(schema.isValid('hello')).toBe(true);
@@ -78,30 +70,32 @@ describe('Validator', () => {
     });
   });
 
-  it('should validate null as a valid number', () => {
-    const v = new Validator();
-    const schema = v.number();
-    expect(schema.isValid(null)).toBe(true);
-  });
+  describe('number tests', () => {
+    it('should validate null as a valid number', () => {
+      const v = new Validator();
+      const schema = v.number();
+      expect(schema.isValid(null)).toBe(true);
+    });
 
-  it('should validate required number correctly', () => {
-    const v = new Validator();
-    const schema = v.number().required();
-    expect(schema.isValid(null)).toBe(false);
-    expect(schema.isValid(7)).toBe(true);
-  });
+    it('should validate required number correctly', () => {
+      const v = new Validator();
+      const schema = v.number().required();
+      expect(schema.isValid(null)).toBe(false);
+      expect(schema.isValid(7)).toBe(true);
+    });
 
-  it('should validate positive number correctly', () => {
-    const v = new Validator();
-    const schema = v.number().positive();
-    expect(schema.isValid(10)).toBe(true);
-    expect(schema.isValid(-5)).toBe(false);
-  });
+    it('should validate positive number correctly', () => {
+      const v = new Validator();
+      const schema = v.number().positive();
+      expect(schema.isValid(10)).toBe(true);
+      expect(schema.isValid(-5)).toBe(false);
+    });
 
-  it('should validate number within range correctly', () => {
-    const v = new Validator();
-    const schema = v.number().range(-5, 5);
-    expect(schema.isValid(-6)).toBe(false);
-    expect(schema.isValid(5)).toBe(true);
-  });
+    it('should validate number within range correctly', () => {
+      const v = new Validator();
+      const schema = v.number().range(-5, 5);
+      expect(schema.isValid(-6)).toBe(false);
+      expect(schema.isValid(5)).toBe(true);
+    });
+  })
 });
