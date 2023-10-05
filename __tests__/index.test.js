@@ -98,4 +98,66 @@ describe('Validator', () => {
       expect(schema.isValid(5)).toBe(true);
     });
   })
+
+  describe('array tests', () => {
+    let validator;
+
+    beforeEach(() => {
+      validator = new Validator();
+    });
+
+    it('should return true if value is null or undefined', () => {
+      const schema = validator.array();
+
+      expect(schema.isValid(null)).toBe(true);
+      expect(schema.isValid(undefined)).toBe(true);
+    });
+
+    it('should return true if value is an array', () => {
+      const schema = validator.array();
+
+      expect(schema.isValid([])).toBe(true);
+      expect(schema.isValid([1, 2, 3])).toBe(true);
+    });
+
+    it('should return false if value is not an array', () => {
+      const schema = validator.array();
+
+      expect(schema.isValid('not an array')).toBe(false);
+      expect(schema.isValid(123)).toBe(false);
+      expect(schema.isValid({})).toBe(false);
+    });
+
+    it('should return false if value is not an array and required', () => {
+      const schema = validator.array().required();
+
+      expect(schema.isValid(null)).toBe(false);
+      expect(schema.isValid(undefined)).toBe(false);
+      expect(schema.isValid('not an array')).toBe(false);
+      expect(schema.isValid(123)).toBe(false);
+      expect(schema.isValid({})).toBe(false);
+    });
+
+    it('should return true if value is an array and required', () => {
+      const schema = validator.array().required();
+
+      expect(schema.isValid([])).toBe(true);
+      expect(schema.isValid([1, 2, 3])).toBe(true);
+    });
+
+    it('should return false if array size is not equal to specified size', () => {
+      const schema = validator.array().sizeof(2);
+
+      expect(schema.isValid([])).toBe(false);
+      expect(schema.isValid([1])).toBe(false);
+      expect(schema.isValid([1, 2, 3])).toBe(false);
+    });
+
+    it('should return true if array size is equal to specified size', () => {
+      const schema = validator.array().sizeof(2);
+
+      expect(schema.isValid([1, 2])).toBe(true);
+      expect(schema.isValid(['a', 'b'])).toBe(true);
+    });
+  });
 });

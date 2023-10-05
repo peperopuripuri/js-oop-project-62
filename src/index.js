@@ -70,4 +70,28 @@ export default class Validator {
       isValid: (value) => this.validations.every((schema) => schema.isValid(value)),
     };
   }
+
+  array() {
+    const arraySchema = {
+        isValid: (value) => Array.isArray(value) || value === null || value === undefined,
+    };
+    this.validations.push(arraySchema);
+    return {
+        required: () => {
+            const requiredSchema = {
+                isValid: (value) => Array.isArray(value),
+            };
+            this.validations.push(requiredSchema);
+            return this;
+        },
+        sizeof: (length) => {
+            const sizeofSchema = {
+                isValid: (value) => Array.isArray(value) && value.length === length,
+            };
+            this.validations.push(sizeofSchema);
+            return this;
+        },
+        isValid: (value) => this.validations.every((schema) => schema.isValid(value)),
+    };
+}
 }
