@@ -44,7 +44,7 @@ export default class Validator {
       isValid: (value) => typeof value === 'number' || value === null || value === undefined,
     };
     this.validations.push(numberSchema);
-    
+
     return {
       required: () => {
         const requiredSchema = {
@@ -73,25 +73,25 @@ export default class Validator {
 
   array() {
     const arraySchema = {
-        isValid: (value) => Array.isArray(value) || value === null || value === undefined,
+      isValid: (value) => Array.isArray(value) || value === null || value === undefined,
     };
     this.validations.push(arraySchema);
     return {
-        required: () => {
-            const requiredSchema = {
-                isValid: (value) => Array.isArray(value),
-            };
-            this.validations.push(requiredSchema);
-            return this;
-        },
-        sizeof: (length) => {
-            const sizeofSchema = {
-                isValid: (value) => Array.isArray(value) && value.length === length,
-            };
-            this.validations.push(sizeofSchema);
-            return this;
-        },
-        isValid: (value) => this.validations.every((schema) => schema.isValid(value)),
+      required: () => {
+        const requiredSchema = {
+          isValid: (value) => Array.isArray(value),
+        };
+        this.validations.push(requiredSchema);
+        return this;
+      },
+      sizeof: (length) => {
+        const sizeofSchema = {
+          isValid: (value) => Array.isArray(value) && value.length === length,
+        };
+        this.validations.push(sizeofSchema);
+        return this;
+      },
+      isValid: (value) => this.validations.every((schema) => schema.isValid(value)),
     };
-}
+  }
 }
