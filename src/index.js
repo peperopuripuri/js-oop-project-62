@@ -55,7 +55,7 @@ export default class Validator {
       },
       positive: () => {
         const positiveSchema = {
-          isValid: (value) => typeof value === 'number' && value > 0,
+          isValid: (value) => value === null || (typeof value === 'number' && value > 0),
         };
         this.validations.push(positiveSchema);
         return this;
@@ -94,13 +94,13 @@ export default class Validator {
       isValid: (value) => this.validations.every((schema) => schema.isValid(value)),
     };
   }
-  
+
   object() {
     const objectSchema = {
       isValid: (value) => typeof value === 'object' && value !== null,
     };
     this.validations.push(objectSchema);
-  
+
     const schema = {
       shape: (shape) => {
         const shapeSchema = {
@@ -124,7 +124,7 @@ export default class Validator {
       },
       isValid: (value) => this.validations.every((schema) => schema.isValid(value)),
     };
-  
+
     return schema;
-  }  
+  }
 }

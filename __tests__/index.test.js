@@ -170,8 +170,8 @@ describe('Validator', () => {
   
     it('should return true for a valid object with specified shape', () => {
       const schema = v.object().shape({
-        name: v.string().required(),
-        age: v.number().positive(),
+        name: new Validator().string().required(),
+        age: new Validator().number().positive(),
       });
   
       expect(schema.isValid({ name: 'kolya', age: 100 })).toBe(true);
@@ -179,9 +179,9 @@ describe('Validator', () => {
   
     it('should return true for a valid object with missing optional properties', () => {
       const schema = v.object().shape({
-        name: v.string().required(),
-        age: v.number().positive(),
-        email: v.string(),
+        name: new Validator().string().required(),
+        age: new Validator().number().positive(),
+        email: new Validator().string(),
       });
   
       expect(schema.isValid({ name: 'maya', age: 25 })).toBe(true);
@@ -189,8 +189,8 @@ describe('Validator', () => {
   
     it('should return false for an object with missing required properties', () => {
       const schema = v.object().shape({
-        name: v.string().required(),
-        age: v.number().positive(),
+        name: new Validator().string().required(),
+        age: new Validator().number().positive(),
       });
   
       expect(schema.isValid({ name: 'ada' })).toBe(false);
@@ -198,8 +198,8 @@ describe('Validator', () => {
   
     it('should return false for an object with invalid property values', () => {
       const schema = v.object().shape({
-        name: v.string().required(),
-        age: v.number().positive(),
+        name: new Validator().string().required(),
+        age: new Validator().number().positive(),
       });
   
       expect(schema.isValid({ name: 'kolya', age: -5 })).toBe(false);
@@ -207,8 +207,8 @@ describe('Validator', () => {
   
     it('should return false for a non-object value', () => {
       const schema = v.object().shape({
-        name: v.string().required(),
-        age: v.number().positive(),
+        name: new Validator().string().required(),
+        age: new Validator().number().positive(),
       });
   
       expect(schema.isValid('invalid')).toBe(false);
