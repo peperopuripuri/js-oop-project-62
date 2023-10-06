@@ -100,7 +100,8 @@ export default class Validator {
       isValid: (value) => typeof value === 'object' && value !== null,
     };
     this.validations.push(objectSchema);
-    return {
+  
+    const schema = {
       shape: (shape) => {
         const shapeSchema = {
           isValid: (value) => {
@@ -119,24 +120,11 @@ export default class Validator {
           },
         };
         this.validations.push(shapeSchema);
-        return this;
+        return schema;
       },
       isValid: (value) => this.validations.every((schema) => schema.isValid(value)),
     };
+  
+    return schema;
   }  
 }
-
-
-const v = new Validator();
-
-const schema = v.object();
-
-schema.shape({
-  name: v.string().required(),
-  age: v.number().positive(),
-});
-
-console.log(schema.isValid({ name: 'kolya', age: 100 })); // true
-console.log(schema.isValid({ name: 'maya', age: null })); // true
-console.log(schema.isValid({ name: '', age: null })); // false
-console.log(schema.isValid({ name: 'ada', age: -5 })); // false

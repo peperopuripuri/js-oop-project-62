@@ -181,7 +181,7 @@ describe('Validator', () => {
       const schema = v.object().shape({
         name: v.string().required(),
         age: v.number().positive(),
-        email: v.string().optional(),
+        email: v.string(),
       });
   
       expect(schema.isValid({ name: 'maya', age: 25 })).toBe(true);
