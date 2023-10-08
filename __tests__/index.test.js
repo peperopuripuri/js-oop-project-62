@@ -97,11 +97,9 @@ describe('Validator', () => {
       expect(schema.isValid(-6)).toBe(false);
       expect(schema.isValid(5)).toBe(true);
     });
-  })
+  });
 
   describe('array tests', () => {
-    let validator;
-
     beforeEach(() => {
       validator = new Validator();
     });
@@ -163,55 +161,55 @@ describe('Validator', () => {
 
   describe('object tests', () => {
     let v;
-  
+
     beforeEach(() => {
       v = new Validator();
     });
-  
+
     it('should return true for a valid object with specified shape', () => {
       const schema = v.object().shape({
         name: new Validator().string().required(),
         age: new Validator().number().positive(),
       });
-  
+
       expect(schema.isValid({ name: 'kolya', age: 100 })).toBe(true);
     });
-  
+
     it('should return true for a valid object with missing optional properties', () => {
       const schema = v.object().shape({
         name: new Validator().string().required(),
         age: new Validator().number().positive(),
         email: new Validator().string(),
       });
-  
+
       expect(schema.isValid({ name: 'maya', age: 25 })).toBe(true);
     });
-  
+
     it('should return false for an object with missing required properties', () => {
       const schema = v.object().shape({
         name: new Validator().string().required(),
         age: new Validator().number().positive(),
       });
-  
+
       expect(schema.isValid({ name: 'ada' })).toBe(false);
     });
-  
+
     it('should return false for an object with invalid property values', () => {
       const schema = v.object().shape({
         name: new Validator().string().required(),
         age: new Validator().number().positive(),
       });
-  
+
       expect(schema.isValid({ name: 'kolya', age: -5 })).toBe(false);
     });
-  
+
     it('should return false for a non-object value', () => {
       const schema = v.object().shape({
         name: new Validator().string().required(),
         age: new Validator().number().positive(),
       });
-  
+
       expect(schema.isValid('invalid')).toBe(false);
     });
-  });  
+  });
 });
