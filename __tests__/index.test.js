@@ -212,4 +212,24 @@ describe('Validator', () => {
       expect(schema.isValid('invalid')).toBe(false);
     });
   });
+
+  describe('addValidator', () => {
+    it('string validator - startWith', () => {
+      const v = new Validator();
+      const fn = (value, start) => value.startsWith(start);
+      v.addValidator('string', 'startWith', fn);
+      const schema = v.string().test('startWith', 'H');
+      expect(schema).toBe(false);
+      expect(schema).toBe(true);
+    });
+  
+    it('number validator - min', () => {
+      const v = new Validator();
+      const fn = (value, min) => value >= min;
+      v.addValidator('number', 'min', fn);
+      const schema = v.number().test('min', 5);
+      expect(schema).toBe(false);
+      expect(schema).toBe(true);
+    });
+  });
 });
