@@ -219,17 +219,17 @@ describe('Validator', () => {
       const fn = (value, start) => value.startsWith(start);
       v.addValidator('string', 'startWith', fn);
       const schema = v.string().test('startWith', 'H');
-      expect(schema).toBe(false);
-      expect(schema).toBe(true);
+      expect(schema.isValid('exlet')).toBe(false);
+      expect(schema.isValid('Hexlet')).toBe(true);
     });
-
+  
     it('number validator - min', () => {
       const v = new Validator();
       const fn = (value, min) => value >= min;
       v.addValidator('number', 'min', fn);
       const schema = v.number().test('min', 5);
-      expect(schema).toBe(false);
-      expect(schema).toBe(true);
+      expect(schema.isValid(4)).toBe(false);
+      expect(schema.isValid(6)).toBe(true);
     });
   });
 });
