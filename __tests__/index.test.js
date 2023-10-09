@@ -222,7 +222,7 @@ describe('Validator', () => {
       expect(schema).toBe(false);
       expect(schema).toBe(true);
     });
-  
+
     it('number validator - min', () => {
       const v = new Validator();
       const fn = (value, min) => value >= min;

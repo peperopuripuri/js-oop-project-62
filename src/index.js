@@ -101,30 +101,29 @@ export default class Validator {
     };
     this.validations.push(objectSchema);
 
-    const schema = {
+    const shapeSchema = {
       shape: (shape) => {
-        const shapeSchema = {
+        const shapeSchemaFn = {
           isValid: (value) => {
             if (typeof value !== 'object' || value === null) {
               return false;
             }
-            for (const key in shape) {
-              if (shape.hasOwnProperty(key)) {
+            const keys = Object.keys(shape);
+            return keys.every((key) => {
+              if (Object.prototype.hasOwnProperty.call(shape, key)) {
                 const schema = shape[key];
-                if (!schema.isValid(value[key])) {
-                  return false;
-                }
+                return schema.isValid(value[key]);
               }
-            }
-            return true;
+              return true;
+            });
           },
         };
-        this.validations.push(shapeSchema);
-        return schema;
+        this.validations.push(shapeSchemaFn);
+        return shapeSchema;
       },
       isValid: (value) => this.validations.every((schema) => schema.isValid(value)),
     };
 
-    return schema;
+    return shapeSchema;
   }
 }
