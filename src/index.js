@@ -43,32 +43,48 @@ export default class Validator {
     const numberSchema = {
       isValid: (value) => typeof value === 'number' || value === null || value === undefined,
     };
-    this.validations.push(numberSchema);
-
-    return {
-      required: () => {
-        const requiredSchema = {
-          isValid: (value) => value !== null && value !== undefined,
-        };
-        this.validations.push(requiredSchema);
-        return this;
-      },
-      positive: () => {
-        const positiveSchema = {
-          isValid: (value) => value === null || (typeof value === 'number' && value > 0),
-        };
-        this.validations.push(positiveSchema);
-        return this;
-      },
-      range: (min, max) => {
-        const rangeSchema = {
-          isValid: (value) => typeof value === 'number' && value >= min && value <= max,
-        };
-        this.validations.push(rangeSchema);
-        return this;
-      },
-      isValid: (value) => this.validations.every((schema) => schema.isValid(value)),
+  
+    numberSchema.test = (name, ...args) => {
+      const schema = {
+        isValid: (value) => {
+          for (const validation of this.validations) {
+            if (validation.name === name && validation.type === 'number') {
+              return validation.fn(value, ...args);
+            }
+          }
+          return true;
+        },
+      };
+      return schema;
     };
+  
+    numberSchema.required = () => {
+      const requiredSchema = {
+        isValid: (value) => value !== null && value !== undefined,
+      };
+      this.validations.push(requiredSchema);
+      return this;
+    };
+  
+    numberSchema.positive = () => {
+      const positiveSchema = {
+        isValid: (value) => value === null || (typeof value === 'number' && value > 0),
+      };
+      this.validations.push(positiveSchema);
+      return this;
+    };
+  
+    numberSchema.range = (min, max) => {
+      const rangeSchema = {
+        isValid: (value) => typeof value === 'number' && value >= min && value <= max,
+      };
+      this.validations.push(rangeSchema);
+      return this;
+    };
+  
+    this.validations.push(numberSchema);
+  
+    return numberSchema;
   }
 
   array() {
@@ -123,7 +139,29 @@ export default class Validator {
       },
       isValid: (value) => this.validations.every((schema) => schema.isValid(value)),
     };
-
     return shapeSchema;
+  }
+
+  addValidator(type, name, fn) {
+    const validatorSchema = {
+      type,
+      name,
+      fn,
+    };
+    this.validations.push(validatorSchema);
+  }
+
+  test(name, ...args) {
+    const schema = {
+      isValid: (value) => {
+        for (const validation of this.validations) {
+          if (validation.name === name) {
+            return validation.fn(value, ...args);
+          }
+        }
+        return true;
+      },
+    };
+    return schema;
   }
 }
