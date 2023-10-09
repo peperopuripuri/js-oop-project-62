@@ -43,11 +43,12 @@ export default class Validator {
     const numberSchema = {
       isValid: (value) => typeof value === 'number' || value === null || value === undefined,
     };
-  
+
     numberSchema.test = (name, ...args) => {
       const schema = {
         isValid: (value) => {
-          for (const validation of this.validations) {
+          for (let i = 0; i < this.validations.length; i += 1) {
+            const validation = this.validations[i];
             if (validation.name === name && validation.type === 'number') {
               return validation.fn(value, ...args);
             }
@@ -57,7 +58,7 @@ export default class Validator {
       };
       return schema;
     };
-  
+
     numberSchema.required = () => {
       const requiredSchema = {
         isValid: (value) => value !== null && value !== undefined,
@@ -65,7 +66,7 @@ export default class Validator {
       this.validations.push(requiredSchema);
       return this;
     };
-  
+
     numberSchema.positive = () => {
       const positiveSchema = {
         isValid: (value) => value === null || (typeof value === 'number' && value > 0),
@@ -73,7 +74,7 @@ export default class Validator {
       this.validations.push(positiveSchema);
       return this;
     };
-  
+
     numberSchema.range = (min, max) => {
       const rangeSchema = {
         isValid: (value) => typeof value === 'number' && value >= min && value <= max,
@@ -81,9 +82,9 @@ export default class Validator {
       this.validations.push(rangeSchema);
       return this;
     };
-  
+
     this.validations.push(numberSchema);
-  
+
     return numberSchema;
   }
 
@@ -154,7 +155,8 @@ export default class Validator {
   test(name, ...args) {
     const schema = {
       isValid: (value) => {
-        for (const validation of this.validations) {
+        for (let i = 0; i < this.validations.length; i += 1) {
+          const validation = this.validations[i];
           if (validation.name === name) {
             return validation.fn(value, ...args);
           }

@@ -222,7 +222,7 @@ describe('Validator', () => {
       expect(schema.isValid('exlet')).toBe(false);
       expect(schema.isValid('Hexlet')).toBe(true);
     });
-  
+
     it('number validator - min', () => {
       const v = new Validator();
       const fn = (value, min) => value >= min;
