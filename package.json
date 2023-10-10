@@ -21,6 +21,7 @@
     "jest-cli": "^29.7.0"
   },
   "dependencies": {
+    "@jest/globals": "^29.7.0",
     "debug": "^4.3.4",
     "lodash": "^4.17.21"
   }
