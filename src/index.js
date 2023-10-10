@@ -61,7 +61,7 @@ export default class Validator {
 
     numberSchema.required = () => {
       const requiredSchema = {
-        isValid: (value) => value !== null && value !== undefined && (typeof value === 'number' || value === ''),
+        isValid: (value) => value !== null && typeof value === 'number',
       };
       this.validations.push(requiredSchema);
       return this;
