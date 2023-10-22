@@ -8,6 +8,6 @@
 - Node.js
 - NPM
 - Git
-## Installation and launch instructions
+## Installation
 - Donwload zip/use git clone link
 - npm ci
