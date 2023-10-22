@@ -11,4 +11,3 @@
 ## Installation and launch instructions
 - Donwload zip/use git clone link
 - npm ci
-- 
